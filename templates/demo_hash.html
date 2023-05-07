@@ -1,0 +1,98 @@
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo Hash - Ascon</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Demo Hash - Ascon</h1>
+    </div>
+    <div class="container">
+        <div class="form-container">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="variant">Hash Variant</label>
+                    <select name="variant" id="variant">
+                        <option value="Ascon-Hash">Ascon-Hash</option>
+                        <option value="Ascon-Hasha">Ascon-Hasha</option>
+                        <option value="Ascon-Xof">Ascon-Xof</option>
+                        <option value="Ascon-Xofa">Ascon-Xofa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="hashlength">Hash Length</label>
+                    <input type="number" name="hashlength" id="hashlength" min="1" max="64" value="32" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea name="message" id="message" rows="4" cols="50" required></textarea>
+                </div>
+                <button type="submit" class="btn">Hash</button>
+            </form>
+        </div>
+        {% if data %}
+            <div class="result-container">
+                <h2>Result:</h2>
+                <table>
+                    <tr>
+                        <th>Message:</th>
+                        <td>{{ data['message'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tag:</th>
+                        <td>{{ data['tag'] }}</td>
+                    </tr>
+                </table>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+-->
+<!doctype html>
+<html>
+  <head>
+    <title>ASCON HASH Demo</title>
+  </head>
+  <body>
+    <h1>ASCON HASH Demo</h1>
+    <form method="POST" action="/demo_hash">
+      <label for="variant">Variant:</label>
+      <select id="variant" name="variant">
+        <option value="Ascon-Hash" {% if variant == "Ascon-Hash" %}selected{% endif %}>Ascon-Hash</option>
+        <option value="Ascon-Hasha" {% if variant == "Ascon-Hasha" %}selected{% endif %}>Ascon-Hasha</option>
+        <option value="Ascon-Xof" {% if variant == "Ascon-Xof" %}selected{% endif %}>Ascon-Xof</option>
+        <option value="Ascon-Xofa" {% if variant == "Ascon-Xofa" %}selected{% endif %}>Ascon-Xofa</option>
+      </select>
+      <br><br>
+      <label for="hashlength">Hash Length:</label>
+      <input type="number" id="hashlength" name="hashlength" value="32" min="1" max="64" required>
+      <br><br>
+      <label for="message">Message:</label><br>
+      <textarea id="message" name="message" rows="5" cols="50" required>{{ request.form.get('message', '') }}</textarea>
+      <br><br>
+      <input type="submit" value="Compute HASH">
+    </form>
+    {% if data is defined %}
+      {% if error %}
+        <p style="color: red;">The HASH could not be computed.</p>
+      {% else %}
+        <p>Computed HASH:</p>
+        <p>Message: {{ data.message }}</p>
+        <p>Tag: {{ data.tag }}</p>
+      {% endif %}
+    {% endif %}
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+  </body>
+</html>

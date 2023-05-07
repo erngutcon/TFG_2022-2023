@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ASCON MAC Demo</title>
+  </head>
+  <body>
+    <h1>ASCON MAC Demo</h1>
+    <form method="POST" action="/demo_mac">
+      <label for="variant">Variant:</label>
+      <select id="variant" name="variant">
+        <option value="Ascon-Mac" {% if variant == "Ascon-Mac" %}selected{% endif %}>Ascon-Mac</option>
+        <option value="Ascon-Prf" {% if variant == "Ascon-Prf" %}selected{% endif %}>Ascon-Prf</option>
+        <option value="Ascon-Maca" {% if variant == "Ascon-Maca" %}selected{% endif %}>Ascon-Maca</option>
+        <option value="Ascon-Prfa" {% if variant == "Ascon-Prfa" %}selected{% endif %}>Ascon-Prfa</option>
+        <option value="Ascon-PrfShort" {% if variant == "Ascon-PrfShort" %}selected{% endif %}>Ascon-PrfShort</option>
+      </select>
+      <br><br>
+      <label for="message">Message:</label><br>
+      <textarea id="message" name="message" rows="5" cols="50" required>{{ request.form.get('message', '') }}</textarea>
+      <br><br>
+      <input type="submit" value="Compute MAC">
+    </form>
+    {% if data is defined %}
+      {% if error %}
+        <p style="color: red;">The MAC could not be computed.</p>
+      {% else %}
+        <p>Computed MAC:</p>
+        <p>Key: {{ data.key }}</p>
+        <p>Message: {{ data.message }}</p>
+        <p>Tag: {{ data.tag }}</p>
+      {% endif %}
+    {% endif %}
+  </body>
+</html>

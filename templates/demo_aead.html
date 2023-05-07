@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AEAD Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        font-family: sans-serif;
+      }
+      fieldset {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 20px 0;
+        padding: 20px;
+      }
+      input[type=submit] {
+        padding: 5px 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      input[type=submit]:hover {
+        background-color: #45a049;
+      }
+      .output {
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+      }
+      .error {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>AEAD Demo</h1>
+    <form method="POST">
+      <fieldset>
+        <legend>Parameters</legend>
+        <label for="variant">Variant:</label>
+        <select name="variant" id="variant">
+          <option value="Ascon-128">Ascon-128</option>
+          <option value="Ascon-128a">Ascon-128a</option>
+          <option value="Ascon-80pq">Ascon-80pq</option>
+        </select><br>
+        <label for="associateddata">Associated Data:</label>
+        <input type="text" name="associateddata" id="associateddata"><br>
+        <label for="plaintext">Plaintext:</label>
+        <input type="text" name="plaintext" id="plaintext">
+      </fieldset>
+      <input type="submit" value="Encrypt/Decrypt">
+    </form>
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+    {% if result %}
+      <div class="output">
+        <p><strong>Result:</strong></p>
+        <p><strong>Key:</strong> {{ result.key }}</p>
+        <p><strong>Nonce:</strong> {{ result.nonce }}</p>
+        <p><strong>Associated Data:</strong> {{ result.associateddata }}</p>
+        <p><strong>Plaintext:</strong> {{ result.plaintext }}</p>
+        <p><strong>Ciphertext:</strong> {{ result.ciphertext }}</p>
+        <p><strong>Tag:</strong> {{ result.tag }}</p>
+        <p><strong>Received:</strong> {{ result.received }}</p>
+      </div>
+    {% endif %}
+  </body>
+</html>
