@@ -102,7 +102,7 @@
         <label for="plaintext">Plaintext:</label>
         <br><textarea id="plaintext" name="plaintext" rows="3" cols="30" required>{{ request.form.get('plaintext', '') }}</textarea>
       </fieldset>
-      <br><input type="submit" value="Encrypt/Decrypt">
+      <br><input type="submit" value="Encrypt/Decrypt AEAD">
     </form>
     {% if error %}
       <p class="error">{{ error }}</p>
