@@ -1,62 +1,92 @@
-<!--
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Demo Hash - Ascon</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="header">
-        <h1>Demo Hash - Ascon</h1>
-    </div>
-    <div class="container">
-        <div class="form-container">
-            <form method="POST">
-                <div class="form-group">
-                    <label for="variant">Hash Variant</label>
-                    <select name="variant" id="variant">
-                        <option value="Ascon-Hash">Ascon-Hash</option>
-                        <option value="Ascon-Hasha">Ascon-Hasha</option>
-                        <option value="Ascon-Xof">Ascon-Xof</option>
-                        <option value="Ascon-Xofa">Ascon-Xofa</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="hashlength">Hash Length</label>
-                    <input type="number" name="hashlength" id="hashlength" min="1" max="64" value="32" required>
-                </div>
-                <div class="form-group">
-                    <label for="message">Message</label>
-                    <textarea name="message" id="message" rows="4" cols="50" required></textarea>
-                </div>
-                <button type="submit" class="btn">Hash</button>
-            </form>
-        </div>
-        {% if data %}
-            <div class="result-container">
-                <h2>Result:</h2>
-                <table>
-                    <tr>
-                        <th>Message:</th>
-                        <td>{{ data['message'] }}</td>
-                    </tr>
-                    <tr>
-                        <th>Tag:</th>
-                        <td>{{ data['tag'] }}</td>
-                    </tr>
-                </table>
-            </div>
-        {% endif %}
-    </div>
-</body>
-</html>
--->
-<!doctype html>
-<html>
   <head>
-    <title>ASCON HASH Demo</title>
+    <title>AEAD Demo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+      fieldset {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 600px;
+      }
+      input[type=submit] {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 20px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+      input[type=submit]:hover {
+        background-color: #45a049;
+      }
+      .output {
+        margin-top: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 20px;
+        max-width: 600px;
+        margin: 20px auto;
+      }
+      .error {
+        color: red;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      label {
+        display: inline-block;
+        text-align: left;
+        margin-right: 10px;
+        margin-bottom: 5px;
+      }
+      input[type=text] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+      }
+      .topnav {
+        overflow: hidden;
+        background-color: #333;
+      }
+      .topnav a {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+      }
+      .topnav a:hover {
+        background-color: #ddd;
+        color: black;
+      }
+      .topnav a.active {
+        background-color: #4CAF50;
+        color: white;
+      }
+    </style>
   </head>
   <body>
+    <div class="topnav">
+      <a class="active" href="/">Home</a>
+      <a href="https://ascon.iaik.tugraz.at/index.html">ASCON Homepage</a>
+    </div>
     <h1>ASCON HASH Demo</h1>
     <form method="POST" action="/demo_hash">
       <label for="variant">Variant:</label>
@@ -79,9 +109,9 @@
       {% if error %}
         <p style="color: red;">The HASH could not be computed.</p>
       {% else %}
-        <p>Computed HASH:</p>
-        <p>Message: {{ data.message }}</p>
-        <p>Tag: {{ data.tag }}</p>
+        <p><strong>Computed HASH:</strong></p>
+        <p><strong>Message:</strong>{{ data.message }}</p>
+        <p><strong>Tag:</strong> {{ data.tag }}</p>
       {% endif %}
     {% endif %}
 

@@ -486,4 +486,4 @@ def demo_mac(variant="Ascon-Mac", taglength=16):
 if __name__ == "__main__":
     demo_aead("Ascon-128")
     demo_hash("Ascon-Hash")
-    demo_mac("Ascon-Prf")
+    demo_mac("Ascon-Maca")

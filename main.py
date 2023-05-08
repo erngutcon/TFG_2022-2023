@@ -16,14 +16,15 @@ def demo_aead():
         keysize = 20 if variant == "Ascon-80pq" else 16
         key = get_random_bytes(keysize)
         nonce = get_random_bytes(16)
-        associateddata = bytes(request.form['associateddata'], 'utf-8')
-        plaintext = bytes(request.form['plaintext'], 'utf-8')
+        associateddata = request.form['associateddata'].encode()
+        plaintext = request.form['plaintext'].encode()
 
         ciphertext = ascon_encrypt(key, nonce, associateddata, plaintext, variant)
         receivedplaintext = ascon_decrypt(key, nonce, associateddata, ciphertext, variant)
 
         if receivedplaintext is None:
-            return render_template('demo_aead.html', variant=variant, error=True)
+            error = 'Decryption failed. Please check your input and try again.'
+            return render_template('demo_aead.html', variant=variant, error=error)
         else:
             data = {
                 'key': key.hex(),
@@ -34,9 +35,12 @@ def demo_aead():
                 'tag': ciphertext[-16:].hex(),
                 'received': receivedplaintext.hex(),
             }
-            return render_template('demo_aead.html', variant=variant, data=data)
+            return render_template('demo_aead.html', variant=variant, result=data)
     else:
-        return render_template('demo_aead.html')
+        return render_template('demo_aead.html', result={})
+
+
+
 
 @app.route('/demo_hash', methods=['GET', 'POST'])
 def demo_hash():
